@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamro_patro_clone/presentation/screens/home_screen.dart';
 import 'package:hamro_patro_clone/presentation/screens/splash_screen.dart';
 
 void main() {
@@ -10,13 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Hamro Patro Clone',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       debugShowCheckedModeBanner: false,
-      home: SplashPage(),
+      home: HomePage(),
     );
   }
 }
