@@ -6,4 +6,5 @@ class AppColor {
   static Color buttonColor = const Color(0xFF727b88);
   static Color iconColor = const Color(0xFF606060);
   static Color? cardColor = Colors.grey[50];
+  static Color? notificationColor = Colors.orange[50];
 }

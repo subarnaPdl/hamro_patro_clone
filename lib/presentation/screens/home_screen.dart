@@ -1,9 +1,13 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hamro_patro_clone/data/dataproviders/dates.dart';
 import 'package:hamro_patro_clone/presentation/resources/colors.dart';
-import 'package:intl/intl.dart';
-import 'package:nepali_utils/nepali_utils.dart';
+import 'package:hamro_patro_clone/presentation/widgets/drawer.dart';
+import 'package:hamro_patro_clone/presentation/widgets/events.dart';
+import 'package:hamro_patro_clone/presentation/widgets/hamro_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,112 +17,135 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final npNow = NepaliDateTime.parse(NepaliDateTime.now().toIso8601String());
-  late final time = NepaliDateFormat("h : mm aa").format(npNow);
-  late final npToday = NepaliDateFormat("EEE, d MMMM, y").format(npNow);
-  nextNpDate({int days = 0}) => NepaliDateFormat("MMMM d")
-      .format(NepaliDateTime(npNow.year, npNow.month, npNow.day + days));
-  late final event =
-      NepaliDateFormat("MMMM", Language.nepali).format(npNow) + " कृष्ण अष्टमी";
-
-  final engNow = DateTime.now();
-  late final engDateToday = DateFormat("MMM d, y").format(engNow);
-  nextEngDate({int days = 0}) => DateFormat("d MMM y")
-      .format(DateTime(engNow.year, engNow.month, engNow.day + days));
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+      drawer: SideMenu(),
+      body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /*-----------Top Card Views-------------*/
             topCardView(context),
             const SizedBox(height: 20),
 
             /*-----------Upcoming Events-------------*/
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  "Upcoming Events",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                Icon(Icons.arrow_forward)
-              ],
+            upcomingEvents(),
+            const SizedBox(height: 18),
+
+            /*-----------Notification-------------*/
+            Container(
+              color: AppColor.notificationColor,
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                children: [
+                  // Message Button
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    label: const Text('Message',
+                        style: TextStyle(color: Colors.black)),
+                    icon: Icon(Icons.message, color: AppColor.secondaryColor),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      side: const BorderSide(width: 0.7, color: Colors.black87),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0)),
+                    ),
+                  ),
+                  const SizedBox(width: 30),
+
+                  const Flexible(
+                      child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                            text: 'Click here for free audio and video call ',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w400)),
+                        WidgetSpan(child: Icon(Icons.call, size: 16)),
+                      ],
+                    ),
+                  ))
+                ],
+              ),
             ),
             const SizedBox(height: 10),
 
-            //
-            Container(
-              height: 100,
-              child: ListView.builder(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return events(context, index + 1);
-                },
-              ),
-            ),
+            /*-----------Hamro Services-------------*/
+            hamroServices(),
           ],
         ),
       ),
     );
   }
 
-  Container events(BuildContext context, int index) {
-    return Container(
-      width: 0.8 * MediaQuery.of(context).size.width,
-      height: 100,
-      padding: const EdgeInsets.only(right: 10),
-      margin: const EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Colors.black87, width: 0.2),
-        color: AppColor.cardColor,
-      ),
-      child: Row(
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: AppColor.primaryColor,
+          statusBarIconBrightness: Brightness.light),
+      iconTheme: IconThemeData(color: AppColor.iconColor),
+
+      leadingWidth: 25,
+      title: Row(
         children: [
-          Image.network(
-            "https://images.hamro-files.com/3WI0siJk5xtWllI6X1B6snUivVA=/http://storage.googleapis.com/hamropatro-storage/assets/hamropatro.com/images/1a65ce43-efd0-4923-8460-6c21b2d43dda.jpg",
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+          GestureDetector(
+            onTap: () {},
+            child: Stack(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      nextNpDate(days: index),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                Icon(
+                  Icons.account_circle_rounded,
+                  color: AppColor.iconColor,
+                ),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
                     ),
-                    Text("$index days after")
-                  ],
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [Text("World Newah Day"), Text(">")],
-                ),
-                Text(nextEngDate(days: index)),
               ],
             ),
-          )
+          ),
+          const SizedBox(width: 10),
+          Text(
+            "Hamro Patro",
+            style: TextStyle(
+                color: AppColor.secondaryColor, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
+
+      //
+      actions: [
+        // Dark / Light Mode
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.brightness_6_rounded),
+        ),
+
+        // Message
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.email_outlined),
+        ),
+      ],
+      actionsIconTheme: IconThemeData(color: AppColor.iconColor),
     );
   }
 
   topCardView(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -231,65 +258,54 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AppBar appBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: AppColor.primaryColor,
-          statusBarIconBrightness: Brightness.light),
-      title: Row(
+  upcomingEvents() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
         children: [
-          GestureDetector(
-            onTap: () {},
-            child: Stack(
-              children: [
-                Icon(
-                  Icons.account_circle_rounded,
-                  color: AppColor.iconColor,
-                ),
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text(
+                "Upcoming Events",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
+              Icon(Icons.arrow_forward, size: 20)
+            ],
           ),
-          const SizedBox(width: 10),
-          Text(
-            "Hamro Patro",
-            style: TextStyle(
-                color: AppColor.secondaryColor, fontWeight: FontWeight.bold),
+          const SizedBox(height: 8),
+
+          //
+          SizedBox(
+            height: 100,
+            child: ListView.builder(
+              itemCount: 5,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return events(context, index + 1);
+              },
+            ),
           ),
         ],
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.brightness_6_rounded),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.email_outlined),
-        ),
-      ],
-      actionsIconTheme: IconThemeData(color: AppColor.iconColor),
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: GestureDetector(
-          child: Icon(Icons.menu, color: AppColor.iconColor),
-          onTap: () {
-            Scaffold.of(context).openDrawer();
-          },
-        ),
+    );
+  }
+
+  Container hamroServices() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text(
+            "Hamro Services",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+          ),
+          SizedBox(height: 15),
+          HamroServicesWidget(),
+        ],
       ),
-      leadingWidth: 30,
     );
   }
 }
