@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class HamroServices {
   List services = [
     {"icon": Icons.local_hospital_outlined, "text": "Doctor"},
-    {"icon": Icons.library_books_outlined, "text": "News"},
+    {"icon": Icons.library_books_outlined, "text": "News", "info": "New"},
     {"icon": Icons.radio_outlined, "text": "Radio"},
-    {"icon": Icons.message, "text": "Message"},
+    {"icon": Icons.message, "text": "Message", "info": "Beta"},
     {"icon": Icons.restaurant_menu, "text": "Recipe"},
     {"icon": Icons.play_circle_outline, "text": "Videos"},
     {"icon": Icons.library_music_outlined, "text": "Audio"},

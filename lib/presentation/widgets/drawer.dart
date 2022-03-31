@@ -49,10 +49,45 @@ class _SideMenuState extends State<SideMenu> {
           ),
 
           // Sidemenu body
+
+          Container(
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.red.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListTile(
+                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                minLeadingWidth: 20,
+                leading: Image.asset(
+                  'assets/images/hamropatro.png',
+                  height: 25,
+                ),
+                title:
+                    Text("Hamro Patro", style: TextStyle(color: Colors.red))),
+          ),
+
           for (var item in _hamroservices.services)
             ListTile(
+              visualDensity: VisualDensity(horizontal: 0, vertical: -2),
+              contentPadding: EdgeInsets.symmetric(horizontal: 25),
+              minLeadingWidth: 20,
               leading: Icon(item['icon'], color: Colors.black),
               title: Text(item['text'], style: TextStyle(color: Colors.black)),
+              trailing: (item['info'] == null)
+                  ? Container(width: 0)
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        item['info'],
+                        style: TextStyle(color: Colors.white),
+                      )),
               onTap: () => {},
             ),
         ],

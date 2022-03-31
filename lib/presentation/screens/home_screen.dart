@@ -7,6 +7,7 @@ import 'package:hamro_patro_clone/data/dataproviders/dates.dart';
 import 'package:hamro_patro_clone/presentation/resources/colors.dart';
 import 'package:hamro_patro_clone/presentation/widgets/drawer.dart';
 import 'package:hamro_patro_clone/presentation/widgets/events.dart';
+import 'package:hamro_patro_clone/presentation/widgets/features.dart';
 import 'package:hamro_patro_clone/presentation/widgets/hamro_services.dart';
 
 class HomePage extends StatefulWidget {
@@ -73,10 +74,59 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
 
             /*-----------Hamro Services-------------*/
             hamroServices(),
+            const SizedBox(height: 20),
+
+            /*-----------Promotions-------------*/
+            promotions(context),
+
+            /*-----------More Features-------------*/
+            Container(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.purple,
+                              ),
+                              child: Icon(
+                                Icons.dashboard_rounded,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "More Features",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ]),
+                      Icon(Icons.arrow_forward, size: 25),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    "Other services we provide",
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
+                  ),
+                  const SizedBox(height: 10),
+                  MoreFeaturesWidget(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -291,7 +341,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container hamroServices() {
+  hamroServices() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
@@ -300,11 +350,40 @@ class _HomePageState extends State<HomePage> {
         children: const [
           Text(
             "Hamro Services",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
           ),
           SizedBox(height: 15),
           HamroServicesWidget(),
         ],
+      ),
+    );
+  }
+
+  promotions(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      color: AppColor.promoColor,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(children: [
+          Image.asset(
+            "assets/images/promo1.jpg",
+            height: 150,
+            width: 0.9 * MediaQuery.of(context).size.width,
+          ),
+          const SizedBox(width: 10),
+          Image.asset(
+            "assets/images/promo2.jpg",
+            height: 150,
+            width: 0.9 * MediaQuery.of(context).size.width,
+          ),
+          const SizedBox(width: 10),
+          Image.asset(
+            "assets/images/promo3.jpg",
+            height: 150,
+            width: 0.9 * MediaQuery.of(context).size.width,
+          ),
+        ]),
       ),
     );
   }
