@@ -43,12 +43,11 @@ class _HamroServicesWidgetState extends State<HamroServicesWidget> {
                 size: 38,
                 color: const Color(0xFF4e5054),
               ),
-              const Spacer(),
+              // const Spacer(),
               Text(
                 item['text'],
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 5),
             ],
           ),
       ],

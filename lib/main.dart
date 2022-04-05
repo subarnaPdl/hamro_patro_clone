@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamro_patro_clone/presentation/resources/colors.dart';
 import 'package:hamro_patro_clone/presentation/screens/home_screen.dart';
-import 'package:hamro_patro_clone/data/models/theme_mode.dart';
+import 'package:hamro_patro_clone/data/models/theme_model.dart';
 
 import 'package:provider/provider.dart';
 

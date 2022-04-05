@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hamro_patro_clone/data/dataproviders/dates.dart';
-import 'package:hamro_patro_clone/data/models/theme_mode.dart';
+import 'package:hamro_patro_clone/data/models/theme_model.dart';
 import 'package:hamro_patro_clone/presentation/widgets/drawer.dart';
 import 'package:hamro_patro_clone/presentation/widgets/events.dart';
 import 'package:hamro_patro_clone/presentation/widgets/features.dart';
