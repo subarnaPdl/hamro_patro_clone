@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hamro_patro_clone/data/dataproviders/hamro_services.dart';
-import 'package:hamro_patro_clone/presentation/resources/colors.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -31,7 +30,7 @@ class _SideMenuState extends State<SideMenu> {
                     child:
                         const Icon(Icons.person, color: Colors.white, size: 40),
                     radius: 30,
-                    backgroundColor: AppColor.iconColor,
+                    backgroundColor: Theme.of(context).iconTheme.color,
                   ),
                   const SizedBox(height: 20),
                   const Text("Login",
@@ -73,8 +72,11 @@ class _SideMenuState extends State<SideMenu> {
               visualDensity: VisualDensity(horizontal: 0, vertical: -2),
               contentPadding: EdgeInsets.symmetric(horizontal: 25),
               minLeadingWidth: 20,
-              leading: Icon(item['icon'], color: Colors.black),
-              title: Text(item['text'], style: TextStyle(color: Colors.black)),
+              leading: Icon(
+                item['icon'],
+                color: const Color(0xFF4e5054),
+              ),
+              title: Text(item['text']),
               trailing: (item['info'] == null)
                   ? Container(width: 0)
                   : Container(

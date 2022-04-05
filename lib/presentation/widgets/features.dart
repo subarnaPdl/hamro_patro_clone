@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hamro_patro_clone/data/dataproviders/features.dart';
-import 'package:hamro_patro_clone/presentation/resources/colors.dart';
 
 class MoreFeaturesWidget extends StatefulWidget {
   const MoreFeaturesWidget({Key? key}) : super(key: key);
@@ -20,18 +19,21 @@ class _MoreFeaturesWidgetState extends State<MoreFeaturesWidget> {
         children: [
           for (var item in _features.features)
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.only(right: 15),
               width: 100,
               height: 150,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: Colors.grey, width: 0.5),
-                color: AppColor.cardColor,
+                border: Border.all(
+                    color: Theme.of(context).shadowColor, width: 0.5),
+                color: Theme.of(context).cardColor,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(item['image'], height: 100),
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.asset(item['image'], height: 100)),
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),

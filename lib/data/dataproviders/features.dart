@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class MoreFeatures {
   List features = [
     {"image": "assets/images/features_1.jpg", "text": "Hamro\nReminder"},

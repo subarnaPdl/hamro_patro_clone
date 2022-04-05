@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hamro_patro_clone/data/dataproviders/hamro_services.dart';
-import 'package:hamro_patro_clone/presentation/resources/colors.dart';
 
 class HamroServicesWidget extends StatefulWidget {
   const HamroServicesWidget({Key? key}) : super(key: key);
@@ -25,7 +24,7 @@ class _HamroServicesWidgetState extends State<HamroServicesWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               (item['info'] == null)
-                  ? Container(width: 0, height: 16)
+                  ? const SizedBox(width: 0, height: 16)
                   : Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
@@ -42,7 +41,7 @@ class _HamroServicesWidgetState extends State<HamroServicesWidget> {
               Icon(
                 item['icon'],
                 size: 38,
-                color: AppColor.iconColor,
+                color: const Color(0xFF4e5054),
               ),
               const Spacer(),
               Text(

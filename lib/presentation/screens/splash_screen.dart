@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hamro_patro_clone/presentation/resources/colors.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -7,7 +6,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.primaryColor,
+      color: Theme.of(context).primaryColor,
       child: Center(
         child: Image.asset(
           "assets/images/hamropatro.png",

@@ -1,14 +1,13 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hamro_patro_clone/data/dataproviders/dates.dart';
-import 'package:hamro_patro_clone/presentation/resources/colors.dart';
+import 'package:hamro_patro_clone/data/models/theme_mode.dart';
 import 'package:hamro_patro_clone/presentation/widgets/drawer.dart';
 import 'package:hamro_patro_clone/presentation/widgets/events.dart';
 import 'package:hamro_patro_clone/presentation/widgets/features.dart';
 import 'package:hamro_patro_clone/presentation/widgets/hamro_services.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,63 +17,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: appBar(context),
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /*-----------Top Card Views-------------*/
             topCardView(context),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
 
             /*-----------Upcoming Events-------------*/
             upcomingEvents(),
-            const SizedBox(height: 18),
+            const SizedBox(height: 15),
 
             /*-----------Notification-------------*/
-            Container(
-              color: AppColor.notificationColor,
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                children: [
-                  // Message Button
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    label: const Text('Message',
-                        style: TextStyle(color: Colors.black)),
-                    icon: Icon(Icons.message, color: AppColor.secondaryColor),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      side: const BorderSide(width: 0.7, color: Colors.black87),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0)),
-                    ),
-                  ),
-                  const SizedBox(width: 30),
-
-                  const Flexible(
-                      child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                            text: 'Click here for free audio and video call ',
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w400)),
-                        WidgetSpan(child: Icon(Icons.call, size: 16)),
-                      ],
-                    ),
-                  ))
-                ],
-              ),
-            ),
-            const SizedBox(height: 15),
+            notification(context),
+            const SizedBox(height: 10),
 
             /*-----------Hamro Services-------------*/
             hamroServices(),
@@ -84,49 +46,7 @@ class _HomePageState extends State<HomePage> {
             promotions(context),
 
             /*-----------More Features-------------*/
-            Container(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(7),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.purple,
-                              ),
-                              child: Icon(
-                                Icons.dashboard_rounded,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              "More Features",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                          ]),
-                      Icon(Icons.arrow_forward, size: 25),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    "Other services we provide",
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
-                  ),
-                  const SizedBox(height: 10),
-                  MoreFeaturesWidget(),
-                ],
-              ),
-            ),
+            moreFeatures(),
           ],
         ),
       ),
@@ -135,12 +55,12 @@ class _HomePageState extends State<HomePage> {
 
   AppBar appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: AppColor.primaryColor,
+          statusBarColor: Theme.of(context).primaryColor,
           statusBarIconBrightness: Brightness.light),
-      iconTheme: IconThemeData(color: AppColor.iconColor),
+      iconTheme: Theme.of(context).iconTheme,
 
       leadingWidth: 25,
       title: Row(
@@ -151,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Icon(
                   Icons.account_circle_rounded,
-                  color: AppColor.iconColor,
+                  color: Theme.of(context).iconTheme.color,
                 ),
                 Positioned(
                   right: 0,
@@ -167,10 +87,13 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(width: 10),
-          Text(
+          const Text(
             "Hamro Patro",
             style: TextStyle(
-                color: AppColor.secondaryColor, fontWeight: FontWeight.bold),
+              color: Color(0xFFc93244),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -179,7 +102,12 @@ class _HomePageState extends State<HomePage> {
       actions: [
         // Dark / Light Mode
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            final themeProvider =
+                Provider.of<ThemeProvider>(context, listen: false);
+            Provider.of<ThemeProvider>(context, listen: false)
+                .toggleTheme(themeProvider.isDarkMode);
+          },
           icon: const Icon(Icons.brightness_6_rounded),
         ),
 
@@ -189,7 +117,7 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.email_outlined),
         ),
       ],
-      actionsIconTheme: IconThemeData(color: AppColor.iconColor),
+      // actionsIconTheme: IconThemeData(color: AppColor.iconColor),
     );
   }
 
@@ -199,21 +127,15 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Colors.grey, width: 0.2),
-        color: AppColor.cardColor,
+        border: Border.all(color: Theme.of(context).shadowColor, width: 0.2),
+        color: Theme.of(context).cardColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Today Info
-          Text(
-            npToday,
-            style: GoogleFonts.mulish(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 15),
+          Text(npToday, style: Theme.of(context).textTheme.headline1),
+          const SizedBox(height: 10),
 
           /*--------------------------------*/
           Row(
@@ -256,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                 width: 0.28 * MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 child: Column(
                   children: [
@@ -268,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(6),
                             topRight: Radius.circular(6)),
-                        color: AppColor.primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                       child: const Text(
                         "+ My Note",
@@ -315,12 +237,12 @@ class _HomePageState extends State<HomePage> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
                 "Upcoming Events",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                style: Theme.of(context).textTheme.headline2,
               ),
-              Icon(Icons.arrow_forward, size: 20)
+              const Icon(Icons.arrow_forward, size: 20)
             ],
           ),
           const SizedBox(height: 8),
@@ -341,19 +263,61 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  notification(BuildContext context) {
+    return Container(
+      color: Theme.of(context).highlightColor,
+      padding: const EdgeInsets.all(15),
+      child: Row(
+        children: [
+          // Message Button
+          ElevatedButton.icon(
+            onPressed: () {},
+            label: Text(
+              'Message',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            icon: const Icon(Icons.message, color: Color(0xFFfd5151)),
+            style: ElevatedButton.styleFrom(
+              primary: Theme.of(context).scaffoldBackgroundColor,
+              elevation: 0.5,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              side: const BorderSide(width: 0.7, color: Colors.black),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0)),
+            ),
+          ),
+          const SizedBox(width: 30),
+
+          const Flexible(
+              child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                    text: 'Click here for free audio and video call ',
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.w400)),
+                WidgetSpan(child: Icon(Icons.call, size: 16)),
+              ],
+            ),
+          ))
+        ],
+      ),
+    );
+  }
+
   hamroServices() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "Hamro Services",
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+            style: Theme.of(context).textTheme.headline2,
           ),
-          SizedBox(height: 15),
-          HamroServicesWidget(),
+          const SizedBox(height: 10),
+          const HamroServicesWidget(),
         ],
       ),
     );
@@ -361,29 +325,76 @@ class _HomePageState extends State<HomePage> {
 
   promotions(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
-      color: AppColor.promoColor,
+      padding: const EdgeInsets.all(13),
+      color: Theme.of(context).bannerTheme.backgroundColor,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(children: [
-          Image.asset(
+          for (var item in [
             "assets/images/promo1.jpg",
-            height: 150,
-            width: 0.9 * MediaQuery.of(context).size.width,
-          ),
-          const SizedBox(width: 10),
-          Image.asset(
             "assets/images/promo2.jpg",
-            height: 150,
-            width: 0.9 * MediaQuery.of(context).size.width,
-          ),
-          const SizedBox(width: 10),
-          Image.asset(
-            "assets/images/promo3.jpg",
-            height: 150,
-            width: 0.9 * MediaQuery.of(context).size.width,
-          ),
+            "assets/images/promo3.jpg"
+          ])
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  item,
+                  height: 150,
+                  width: 0.85 * MediaQuery.of(context).size.width,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
         ]),
+      ),
+    );
+  }
+
+  moreFeatures() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Container(
+                  padding: const EdgeInsets.all(7),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.purple,
+                  ),
+                  child: const Icon(
+                    Icons.dashboard_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "More Features",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+              ]),
+              const Icon(Icons.arrow_forward, size: 25),
+            ],
+          ),
+          const SizedBox(height: 5),
+
+          // -------------------------------- //
+          const Text(
+            "Other services we provide",
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
+          ),
+          const SizedBox(height: 10),
+
+          // -------------------------------- //
+          const MoreFeaturesWidget(),
+        ],
       ),
     );
   }

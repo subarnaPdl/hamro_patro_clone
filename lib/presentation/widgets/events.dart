@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hamro_patro_clone/data/dataproviders/dates.dart';
-import 'package:hamro_patro_clone/presentation/resources/colors.dart';
 
 Container events(BuildContext context, int index) {
   return Container(
@@ -11,7 +10,7 @@ Container events(BuildContext context, int index) {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       border: Border.all(color: Colors.black87, width: 0.2),
-      color: AppColor.cardColor,
+      color: Theme.of(context).cardColor,
     ),
     child: Row(
       children: [
